@@ -23,7 +23,7 @@ var books = [
 var authors = [
     { author_name: "Patrick Rothfuss", country: "BD", author_id: "1" },
     { author_name: "Brandon Sanderson", country: "UK", author_id: "2" },
-    { author_name: "Terry Paratchett", country: "BD", author_id: "3" },
+    { author_name: "Terry Paratchet", country: "BD", author_id: "3" },
 ]
 
 var publication = [
@@ -66,7 +66,10 @@ const AuthorType = new GraphQLObjectType({
         Books: {
             type: new GraphQLList(BookType),
             resolve(parent, args) {
-                return _.filter(books, { author_id: parent.author_id})
+                //console.log(parent)
+                const total= _.filter(books, { author_id: parent.author_id})
+                console.log(` ${total.length} number of books published by ${parent.author_name}`)
+                return total
             }
         }
     })
@@ -85,12 +88,6 @@ const PublicationType = new GraphQLObjectType({
             type: AuthorType,
             resolve(parent, args) {
                 return _.find(authors, { author_id: parent.author_id })
-            },
-            Books: {
-                type: new GraphQLList(BookType),
-                resolve(parent, args) {
-                    return  _.filter(books, { author_id: parent.author_id })
-                }
             }
         }
         
