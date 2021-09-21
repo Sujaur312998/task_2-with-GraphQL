@@ -9,7 +9,7 @@ const {
     GraphQLInt
 } = graphql
 
-//dummydata
+//dummyData
 
 var books = [
     { book_title: 'book_title of the Wind', price: '300', book_id: '1', author_id: '1' },
@@ -74,7 +74,7 @@ const AuthorType = new GraphQLObjectType({
 
 //PublicationType
 
-/* const PublicationType = new GraphQLObjectType({
+const PublicationType = new GraphQLObjectType({
     name: 'PublishedBook',
     fields: () => ({
         publication_id: { type: GraphQLID },
@@ -85,16 +85,17 @@ const AuthorType = new GraphQLObjectType({
             type: AuthorType,
             resolve(parent, args) {
                 return _.find(authors, { author_id: parent.author_id })
-            }
-        },
-        Books: {
-            type: new GraphQLList(BookType),
-            resolve(parent, args) {
-                return _.filter(books, { author_id: parent.author_id })
+            },
+            Books: {
+                type: new GraphQLList(BookType),
+                resolve(parent, args) {
+                    return  _.filter(books, { author_id: parent.author_id })
+                }
             }
         }
+        
     })
-}) */
+})
 
 
 const RootQuery = new GraphQLObjectType({
@@ -111,7 +112,6 @@ const RootQuery = new GraphQLObjectType({
             type: AuthorType,
             args: { author_id: { type: GraphQLID } },
             resolve(parent, args) {
-
                 return _.find(authors, { author_id: args.author_id })
             }
         },
@@ -121,14 +121,14 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent,args){
                 return _.filter(authors,{country:args.country})
             }
-        }
-        /* PublishedBook: {
+        },
+        PublishedBook: {
             type: PublicationType,
             args: { publication_id: { type: GraphQLID } },
             resolve(parent, args) {
                 return _.find(publication, {publication_id: args.publication_id})
             }
-        } */
+        }
     }
 })
 
